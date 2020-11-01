@@ -9,6 +9,30 @@
     backup: yes
 
 - name: enable repos
+  template:
+    src: repos_template.j2
+    dest: /etc/yum.repos.d/internal.repo
+    owner: root
+    group: wheel
+    mode: '0644'
  
 - name: install base tools and packages
+  yum:
+    name: 
+      - httpd
+      - curl
+      - tomcat*
+      - python-psycopg2
+      - postgresql10 
+      - postgresql10-server 
+      - postgresql10-contrib 
+      - postgresql10-libs
+    state: latest
+
+- name: test
+  template:
+    src: index.html.j2
+    dest: "{{ tomcat_web_root }}"
+
+
 
